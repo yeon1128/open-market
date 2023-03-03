@@ -6,14 +6,19 @@ function ProductCard() {
     <>
       <li>
         <figure>
-          <img src={product} alt="" />
+          <S.ProductImg src={product} alt="" />
           <figcaption>
-            <p>
-              <small>우당탕탕 라이캣의 실험실</small>
-            </p>
-            <p>Hack Your Life 개발자 노트북 파우치</p>
-            <strong>28,000</strong>
-            <span>원</span>
+            <S.SellerName>우당탕탕 라이캣의 실험실</S.SellerName>
+            <S.ProductName>
+              Hack Your Life 개발자 노트북 파우치Hack Your Life 개발자 노트북
+              파우치Hack Your Life 개발자 노트북 파우치Hack Your Life 개발자
+              노트북 파우치Hack Your Life 개발자 노트북 파우치Hack Your Life
+              개발자 노트북 파우치Hack Your Life 개발자 노트북 파우치
+            </S.ProductName>
+            <S.Price>
+              28,000
+              <span>원</span>
+            </S.Price>
           </figcaption>
         </figure>
       </li>
