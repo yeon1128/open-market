@@ -9,11 +9,31 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Carousel />
       <MainContainer>
-        <ul>
+        <Carousel />
+        <S.ProductList>
           <ProductCard />
-        </ul>
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+          <ProductCard />
+        </S.ProductList>
       </MainContainer>
     </>
   );
