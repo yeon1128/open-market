@@ -1,4 +1,6 @@
 export const theme = {
   mainColor: "#21BF48",
-  grayColor: "#767676",
+  lightGray: "#c4c4c4",
+  mediumGray: "#767676",
+  bgColor: "#f2f2f2",
 };
