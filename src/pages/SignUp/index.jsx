@@ -39,6 +39,11 @@ export default function SignUp() {
           [name]:
             "6자 이상 20자 이내의 영문 소문자, 대문자, 숫자만 사용 가능합니다.",
         });
+      } else if (name === "password") {
+        setErrors({
+          ...errors,
+          [name]: "비밀번호는 8자 이상, 영소문자를 포함해야 합니다.",
+        });
       }
     }
   };
@@ -73,6 +78,7 @@ export default function SignUp() {
           name="password"
           required
         />
+        {!isValids(password, "password") && <p>{errors.password}</p>}
 
         <button type="submit">가입하기</button>
       </fieldset>
