@@ -18,6 +18,12 @@ export default function SignUp() {
       return /^[a-zA-Z0-9]{6,19}$/g.test(target);
     } else if (targetName === "password") {
       return /^(?=.*[a-z])(?=.*[0-9]).{8,16}$/g.test(target);
+    } else if (targetName === "password2") {
+      return target !== password ? false : true;
+    } else if (targetName === "name") {
+      return target === "" ? false : true;
+    } else if (targetName === "phone_number") {
+      return /^[0-9]{10}$/g.test(target);
     }
   };
 
@@ -44,6 +50,14 @@ export default function SignUp() {
           ...errors,
           [name]: "비밀번호는 8자 이상, 영소문자를 포함해야 합니다.",
         });
+      } else if (name === "password2") {
+        setErrors({ ...errors, [name]: "비밀번호가 일치하지 않습니다." });
+      } else if (name === "phone_number") {
+        setErrors({
+          ...errors,
+          [name]:
+            "핸드폰 번호는 01*으로 시작해야 하는 10~11자리 숫자여야 합니다.",
+        });
       }
     }
   };
@@ -67,6 +81,7 @@ export default function SignUp() {
           required
         />
         {!isValids(username, "username") && <p>{errors.username}</p>}
+
         <button>중복확인</button>
 
         <label htmlFor="userPassword">비밀번호</label>
@@ -79,6 +94,41 @@ export default function SignUp() {
           required
         />
         {!isValids(password, "password") && <p>{errors.password}</p>}
+
+        <label htmlFor="userPassword2">비밀번호 확인</label>
+        <input
+          type="password"
+          id="userPassword2"
+          value={password2}
+          onChange={handleChange}
+          name="password2"
+          required
+        />
+        {!isValids(password2, "password2") && <p>{errors.password2}</p>}
+
+        <label htmlFor="name">이름</label>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={handleChange}
+          name="name"
+          required
+        />
+        {!isValids(name, "name") && <p>{errors.name}</p>}
+
+        <label htmlFor="phoneNumber">휴대폰 번호</label>
+        <input
+          type="tel"
+          id="phoneNumber"
+          value={phone_number}
+          onChange={handleChange}
+          name="phone_number"
+          required
+        />
+        {!isValids(phone_number, "phone_number") && (
+          <p>{errors.phone_number}</p>
+        )}
 
         <button type="submit">가입하기</button>
       </fieldset>
