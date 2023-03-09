@@ -19,6 +19,7 @@ export default function SignUp() {
     phone_number: false,
     name: false,
   });
+  const [idDupCheck, setIdDupCheck] = useState("");
 
   // 유효성 검사
   const isValids = (target, targetName) => {
@@ -82,6 +83,26 @@ export default function SignUp() {
     console.log(values.username, values.password);
   };
 
+  const userIdCheck = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_KEY}/accounts/signup/valid/username/`,
+        {
+          username,
+        }
+      );
+
+      if (res.data.Success === "멋진 아이디네요 :)") {
+        setIdDupCheck(res.Success);
+      } else if (res.data.FAIL_Message === "이미 사용 중인 아이디입니다.") {
+        setIdDupCheck("이미 사용 중인 아이디입니다.");
+      } else if (res.data.FAIL_Message === "username 필드를 추가해주세요 :)") {
+        setIdDupCheck("username 필드를 추가해주세요 :)");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
@@ -96,8 +117,11 @@ export default function SignUp() {
           onBlur={handleBlur}
         />
         {!isValids(username, "username") && <p>{errors.username}</p>}
+        {!isValids(username, "username") && <p>{idDupCheck}</p>}
 
-        <button>중복확인</button>
+        <button type="button" onClick={userIdCheck}>
+          중복확인
+        </button>
 
         <label htmlFor="userPassword">비밀번호</label>
         <input
