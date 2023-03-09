@@ -12,7 +12,15 @@ export default function SignUp() {
   const [values, setValues] = useState({ ...initialState });
   const { username, password, password2, phone_number, name } = values;
   const [errors, setErrors] = useState({ ...initialState });
+  const [isBlurs, setIsBlurs] = useState({
+    username: false,
+    password: false,
+    password2: false,
+    phone_number: false,
+    name: false,
+  });
 
+  // 유효성 검사
   const isValids = (target, targetName) => {
     if (targetName === "username") {
       return /^[a-zA-Z0-9]{6,19}$/g.test(target);
@@ -50,7 +58,7 @@ export default function SignUp() {
           ...errors,
           [name]: "비밀번호는 8자 이상, 영소문자를 포함해야 합니다.",
         });
-      } else if (name === "password2") {
+      } else if (name === "password2" && value !== password) {
         setErrors({ ...errors, [name]: "비밀번호가 일치하지 않습니다." });
       } else if (name === "phone_number") {
         setErrors({
@@ -60,6 +68,13 @@ export default function SignUp() {
         });
       }
     }
+  };
+
+  const handleBlur = (e) => {
+    setIsBlurs({ ...isBlurs, [e.target.name]: true });
+
+    !e.target.value &&
+      setErrors({ ...errors, [e.target.name]: "필수 정보입니다." });
   };
 
   const handleSubmit = (e) => {
@@ -78,7 +93,7 @@ export default function SignUp() {
           onChange={handleChange}
           value={username}
           name="username"
-          required
+          onBlur={handleBlur}
         />
         {!isValids(username, "username") && <p>{errors.username}</p>}
 
@@ -91,7 +106,7 @@ export default function SignUp() {
           value={password}
           onChange={handleChange}
           name="password"
-          required
+          onBlur={handleBlur}
         />
         {!isValids(password, "password") && <p>{errors.password}</p>}
 
@@ -102,9 +117,9 @@ export default function SignUp() {
           value={password2}
           onChange={handleChange}
           name="password2"
-          required
+          onBlur={handleBlur}
         />
-        {!isValids(password2, "password2") && <p>{errors.password2}</p>}
+        {isBlurs.password2 && <p>{errors.password2}</p>}
 
         <label htmlFor="name">이름</label>
         <input
@@ -113,7 +128,7 @@ export default function SignUp() {
           value={name}
           onChange={handleChange}
           name="name"
-          required
+          onBlur={handleBlur}
         />
         {!isValids(name, "name") && <p>{errors.name}</p>}
 
@@ -124,7 +139,7 @@ export default function SignUp() {
           value={phone_number}
           onChange={handleChange}
           name="phone_number"
-          required
+          onBlur={handleBlur}
         />
         {!isValids(phone_number, "phone_number") && (
           <p>{errors.phone_number}</p>
