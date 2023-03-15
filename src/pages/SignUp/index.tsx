@@ -93,13 +93,13 @@ export default function SignUp() {
         }
       );
 
-      // if (res.data.Success === "멋진 아이디네요 :)") {
-      //   setIdDupCheck(res.Success);
-      // } else if (res.data.FAIL_Message === "이미 사용 중인 아이디입니다.") {
-      //   setIdDupCheck("이미 사용 중인 아이디입니다.");
-      // } else if (res.data.FAIL_Message === "username 필드를 추가해주세요 :)") {
-      //   setIdDupCheck("username 필드를 추가해주세요 :)");
-      // }
+      if (res.data.Success === "멋진 아이디네요 :)") {
+        setIdDupCheck(res.data.Success);
+      } else if (res.data.FAIL_Message === "이미 사용 중인 아이디입니다.") {
+        setIdDupCheck("이미 사용 중인 아이디입니다.");
+      } else if (res.data.FAIL_Message === "username 필드를 추가해주세요 :)") {
+        setIdDupCheck("username 필드를 추가해주세요 :)");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -118,7 +118,7 @@ export default function SignUp() {
           onBlur={handleBlur}
         />
         {!isValids(username, "username") && <p>{errors.username}</p>}
-        {!isValids(username, "username") && <p>{idDupCheck}</p>}
+        {idDupCheck && <p>{idDupCheck}</p>}
 
         <button type="button" onClick={userIdCheck}>
           중복확인
