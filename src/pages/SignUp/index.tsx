@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import * as React from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function SignUp() {
@@ -22,7 +23,7 @@ export default function SignUp() {
   const [idDupCheck, setIdDupCheck] = useState("");
 
   // 유효성 검사
-  const isValids = (target, targetName) => {
+  const isValids = (target: any, targetName: String) => {
     if (targetName === "username") {
       return /^[a-zA-Z0-9]{6,19}$/g.test(target);
     } else if (targetName === "password") {
@@ -36,7 +37,7 @@ export default function SignUp() {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setValues({ ...values, [name]: value });
@@ -71,14 +72,14 @@ export default function SignUp() {
     }
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setIsBlurs({ ...isBlurs, [e.target.name]: true });
 
     !e.target.value &&
       setErrors({ ...errors, [e.target.name]: "필수 정보입니다." });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(values.username, values.password);
   };
@@ -92,13 +93,13 @@ export default function SignUp() {
         }
       );
 
-      if (res.data.Success === "멋진 아이디네요 :)") {
-        setIdDupCheck(res.Success);
-      } else if (res.data.FAIL_Message === "이미 사용 중인 아이디입니다.") {
-        setIdDupCheck("이미 사용 중인 아이디입니다.");
-      } else if (res.data.FAIL_Message === "username 필드를 추가해주세요 :)") {
-        setIdDupCheck("username 필드를 추가해주세요 :)");
-      }
+      // if (res.data.Success === "멋진 아이디네요 :)") {
+      //   setIdDupCheck(res.Success);
+      // } else if (res.data.FAIL_Message === "이미 사용 중인 아이디입니다.") {
+      //   setIdDupCheck("이미 사용 중인 아이디입니다.");
+      // } else if (res.data.FAIL_Message === "username 필드를 추가해주세요 :)") {
+      //   setIdDupCheck("username 필드를 추가해주세요 :)");
+      // }
     } catch (error) {
       console.log(error);
     }

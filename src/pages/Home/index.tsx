@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import * as S from "./style";
 import { MainContainer } from "../../components/MainContainer";
 import ProductCard from "../../components/ProductCard";

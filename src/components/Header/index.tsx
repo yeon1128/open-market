@@ -1,3 +1,4 @@
+import * as React from "react";
 import main_logo from "../../assets/images/main_logo.png";
 import * as S from "./style";
 
