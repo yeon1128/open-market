@@ -15,7 +15,7 @@ export const FooterWrapper = styled.div`
 export const FooterNavList = styled.ul`
   display: flex;
   width: 100%;
-  border-bottom: 1px solid ${(props) => props.theme.lightGray};
+  border-bottom: 1px solid ${(props) => props.theme.gray.light};
   padding-bottom: 30px;
   > li:first-child {
     padding-left: 0;
@@ -33,7 +33,7 @@ export const FooterNavItem = styled.li`
 
 export const FooterInfo = styled.div`
   padding-top: 30px;
-  color: ${(props) => props.theme.mediumGray};
+  color: ${(props) => props.theme.gray.medium};
   font-size: 14px;
   line-height: 24px;
   > h3 {

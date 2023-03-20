@@ -62,7 +62,7 @@ export const CartBtn = styled.button`
 `;
 export const CartBtnTxt = styled.p`
   font-size: 12px;
-  color: ${(props) => props.theme.mediumGray};
+  color: ${(props) => props.theme.gray.medium};
   padding-top: 4px;
 `;
 export const MyPageBtn = styled.button`
@@ -74,7 +74,7 @@ export const MyPageBtn = styled.button`
 `;
 export const MyPageBtnTxt = styled.p`
   font-size: 12px;
-  color: ${(props) => props.theme.mediumGray};
+  color: ${(props) => props.theme.gray.medium};
   padding-top: 4px;
 `;
 export const CartLink = styled.div`

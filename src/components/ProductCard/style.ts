@@ -7,7 +7,7 @@ export const ProductImg = styled.img`
 export const SellerName = styled.p`
   padding-bottom: 10px;
   font-size: 16px;
-  color: ${(props) => props.theme.mediumGray};
+  color: ${(props) => props.theme.gray.medium};
   line-height: 22px;
 `;
 export const ProductName = styled.p`
