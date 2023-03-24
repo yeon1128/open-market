@@ -8,6 +8,7 @@ export interface RegisterPostData {
   password2: string;
   phone_number: string;
   name: string;
+  checkbox: boolean;
 }
 interface RegisterState {
   registerStatus: string;
