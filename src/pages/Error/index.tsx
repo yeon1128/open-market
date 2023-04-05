@@ -1,7 +1,5 @@
 import * as React from "react";
 
-function Error() {
-  return <>Error</>;
+export default function Error() {
+  return <div>hello</div>;
 }
-
-export default Error;
