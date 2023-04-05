@@ -9,6 +9,9 @@ export interface RegisterPostData {
   phone_number: string;
   name: string;
   checkbox: boolean;
+  email?: string;
+  company_registration_number?: string;
+  store_name?: string;
 }
 interface RegisterState {
   registerStatus: string;
@@ -66,6 +69,7 @@ export const registerSlice = createSlice({
       state.error = "";
     },
   },
+  // 구매자 회원가입
   extraReducers: (builder) => {
     builder.addCase(axiosPostRegister.pending, (state) => {
       state.registerStatus = "loading";

@@ -9,10 +9,17 @@ import {
   getRegisterError,
   getJoinUserType,
   resetAll,
+  resetName,
 } from "../../feature/registerSlice";
 import { useAppDispatch, useAppSelector } from "../../store";
 import Loading from "../common/Loading";
 import { useNavigate } from "react-router-dom";
+import NormalBtn from "../common/Button/NormalBtn";
+import * as S from "./style";
+import SignUpInput from "./Input/SignUpInput";
+import PhoneInput from "./Input/PhoneInput";
+import limitLength from "../../utils/limitLength";
+import { phone1RegExp, phone2RegExp, phone3RegExp } from "../../utils/regExp";
 
 function SignUpForm() {
   const initialState = {
@@ -22,6 +29,9 @@ function SignUpForm() {
     phone_number: "",
     name: "",
     checkbox: false,
+    phone1: "010",
+    phone2: "",
+    phone3: "",
   };
   const [values, setValues] = useState(initialState);
   const { username, password, password2, phone_number, name, checkbox } =
@@ -37,6 +47,7 @@ function SignUpForm() {
   });
   const [idDupCheck, setIdDupCheck] = useState("");
 
+  const nameStatus = useAppSelector(getNameStatus);
   const userType = useAppSelector(getJoinUserType);
   const registerStatus = useAppSelector(getRegisterStatus);
   const registerError = useAppSelector(getRegisterError);
@@ -59,15 +70,9 @@ function SignUpForm() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    nameStatus !== "idle" && dispatch(resetName());
     const { name, value } = e.target;
-
     setValues({ ...values, [name]: value });
-
-    // if (e.target.type === "text") {
-    //   setValues({ ...values, username: e.target.value });
-    // } else if (e.target.type === "password") {
-    //   setValues({ ...values, password: e.target.value });
-    // }
 
     if (!isValids(value, name)) {
       setIsBlurs({
@@ -158,83 +163,98 @@ function SignUpForm() {
     setValues({ ...values, ["checkbox"]: e.target.checked });
   };
 
+  // 휴대폰번호
+  const handleClickPhone = (selected: string) => {
+    setValues({ ...values, ["phone1"]: selected });
+  };
+
+  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    // 숫자 4자리만 입력 가능
+    const newValue = limitLength(value, 4).replace(/[^0-9]/g, "");
+    const message = "* 휴대폰번호 입력 형식을 확인해주세요.";
+    const regExp = name === "phone2" ? phone2RegExp : phone3RegExp;
+    const error = newValue.match(regExp) ? "" : message;
+    setValues({ ...values, [name]: newValue });
+    setErrors({ ...errors, ["phone_number"]: error });
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <fieldset>
+    <S.SignUpForm onSubmit={handleSubmit}>
+      <S.SignUpFieldSet>
         <legend>회원가입</legend>
-        <label htmlFor="userId">아이디</label>
-        <input
-          type="text"
-          id="userId"
-          onChange={handleChange}
-          value={username}
-          name="username"
-          onBlur={handleBlur}
-        />
-        {!isValids(username, "username") && !idDupCheck && (
-          <p>{errors.username}</p>
-        )}
-        {idDupCheck && <p>{idDupCheck}</p>}
 
-        <button type="button" onClick={userIdCheck}>
-          중복확인
-        </button>
+        <S.InputContainer>
+          <SignUpInput
+            labelTxt="아이디"
+            type="text"
+            id="userId"
+            onChange={handleChange}
+            value={username}
+            name="username"
+            onBlur={handleBlur}
+            isValids={isValids}
+            error={errors.username}
+            idDupCheck={idDupCheck}
+            userIdCheck={userIdCheck}
+          />
 
-        <label htmlFor="userPassword">비밀번호</label>
-        <input
-          type="password"
-          id="userPassword"
-          value={password}
-          onChange={handleChange}
-          name="password"
-          onBlur={handleBlur}
-        />
-        {!isValids(password, "password") && <p>{errors.password}</p>}
+          <SignUpInput
+            labelTxt="비밀번호"
+            type="password"
+            id="userPassword"
+            onChange={handleChange}
+            value={password}
+            name="password"
+            onBlur={handleBlur}
+            isValids={isValids}
+            error={errors.password}
+          />
 
-        <label htmlFor="userPassword2">비밀번호 확인</label>
-        <input
-          type="password"
-          id="userPassword2"
-          value={password2}
-          onChange={handleChange}
-          name="password2"
-          onBlur={handleBlur}
-        />
-        {!isValids(password2, "password2") && <p>{errors.password2}</p>}
+          <SignUpInput
+            labelTxt="비밀번호 확인"
+            type="password"
+            id="userPassword2"
+            onChange={handleChange}
+            value={password2}
+            name="password2"
+            onBlur={handleBlur}
+            isValids={isValids}
+            error={errors.password2}
+          />
 
-        <label htmlFor="name">이름</label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={handleChange}
-          name="name"
-          onBlur={handleBlur}
-        />
-        {!isValids(name, "name") && <p>{errors.name}</p>}
+          <SignUpInput
+            labelTxt="이름"
+            type="text"
+            id="name"
+            onChange={handleChange}
+            value={name}
+            name="name"
+            onBlur={handleBlur}
+            isValids={isValids}
+            error={errors.name}
+          />
 
-        <label htmlFor="phoneNumber">휴대폰 번호</label>
-
-        <input
-          type="tel"
-          id="phoneNumber"
-          value={phone_number}
-          onChange={handleChange}
-          name="phone_number"
-          onBlur={handleBlur}
-        />
-        {!isValids(phone_number, "phone_number") && (
-          <p>{errors.phone_number}</p>
-        )}
+          <PhoneInput
+            onClick={handleClickPhone}
+            onChange={handleChangePhone}
+            value1={values.phone1}
+            value2={values.phone2}
+            value3={values.phone3}
+            isValids={isValids}
+            error={errors.phone_number}
+            value={phone_number}
+            name="phone_number"
+          />
+        </S.InputContainer>
         <input type="checkbox" onChange={handleCheckBox} required />
         <label htmlFor="check">
           호두샵의 이용약관 및 개인정보처리방침에 대한 내용을 확인하였고
           동의합니다.
         </label>
-
         <button type="submit">가입하기</button>
-      </fieldset>
-    </form>
+      </S.SignUpFieldSet>
+    </S.SignUpForm>
   );
 }
 
